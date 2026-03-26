@@ -74,38 +74,41 @@ export default function Appointments() {
   }
 
   return (
-    <div className="p-6 lg:p-8 max-w-5xl">
-      <h1 className="text-2xl font-bold text-foreground mb-1">Appointments</h1>
+    <div className="p-6 lg:p-8 max-w-5xl fade-in">
+      <h1 className="text-2xl lg:text-3xl font-bold text-foreground mb-1.5 tracking-tight">Appointments</h1>
       <p className="text-muted-foreground text-sm mb-8">Book appointments with our doctors</p>
 
       <div className="mb-10">
-        <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-          <Stethoscope className="h-5 w-5 text-primary" /> Available Doctors
+        <h2 className="text-base font-semibold text-foreground mb-5 flex items-center gap-2">
+          <div className="p-1.5 rounded-lg bg-primary/10">
+            <Stethoscope className="h-4 w-4 text-primary" />
+          </div>
+          Available Doctors
         </h2>
         {doctors.length === 0 ? (
-          <p className="text-muted-foreground text-sm glass-card p-6 text-center">No doctors available at the moment.</p>
+          <p className="text-muted-foreground text-sm glass-card p-8 text-center">No doctors available at the moment.</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {doctors.map((doc) => (
               <div key={doc.id} className="glass-card-hover p-5">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="gradient-violet h-10 w-10 rounded-full flex items-center justify-center">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="gradient-violet h-11 w-11 rounded-xl flex items-center justify-center shadow-sm shadow-primary/20">
                     <Stethoscope className="h-5 w-5 text-primary-foreground" />
                   </div>
                   <div>
-                    <p className="font-semibold text-foreground">Dr. {doc.name}</p>
-                    <p className="text-xs text-muted-foreground">{doc.specialization}</p>
+                    <p className="font-semibold text-foreground text-sm">Dr. {doc.name}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{doc.specialization}</p>
                   </div>
                 </div>
-                <div className="flex flex-wrap gap-2 mb-3">
+                <div className="flex flex-wrap gap-2 mb-4">
                   {doc.available_slots?.map((slot) => (
                     <button
                       key={slot}
                       onClick={() => setSelectedSlots((prev) => ({ ...prev, [doc.id]: slot }))}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
+                      className={`px-3 py-1.5 rounded-xl text-xs font-medium border transition-all duration-200 ${
                         selectedSlots[doc.id] === slot
-                          ? 'bg-primary/20 border-primary text-primary'
-                          : 'border-border text-muted-foreground hover:border-primary/30'
+                          ? 'bg-primary/15 border-primary/50 text-primary shadow-sm shadow-primary/10'
+                          : 'border-border text-muted-foreground hover:border-primary/25 hover:text-foreground'
                       }`}
                     >
                       {slot}
@@ -117,7 +120,7 @@ export default function Appointments() {
                   size="sm"
                   disabled={!selectedSlots[doc.id] || booking === doc.id}
                   onClick={() => bookAppointment(doc)}
-                  className="w-full"
+                  className="w-full rounded-xl"
                 >
                   {booking === doc.id ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Book Appointment'}
                 </Button>
@@ -128,28 +131,31 @@ export default function Appointments() {
       </div>
 
       <div>
-        <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-          <CalendarDays className="h-5 w-5 text-success" /> Your Appointments
+        <h2 className="text-base font-semibold text-foreground mb-5 flex items-center gap-2">
+          <div className="p-1.5 rounded-lg bg-success/10">
+            <CalendarDays className="h-4 w-4 text-success" />
+          </div>
+          Your Appointments
         </h2>
         {appointments.length === 0 ? (
-          <p className="text-muted-foreground text-sm glass-card p-6 text-center">No appointments booked yet.</p>
+          <p className="text-muted-foreground text-sm glass-card p-8 text-center">No appointments booked yet.</p>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {appointments.map((a) => (
               <div key={a.id} className="glass-card-hover p-4 flex items-center gap-4">
-                <div className="p-2 rounded-lg bg-success/10">
+                <div className="p-2.5 rounded-xl bg-success/10">
                   <CheckCircle className="h-5 w-5 text-success" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-medium text-foreground">Dr. {a.doctor_name}</p>
-                  <p className="text-xs text-muted-foreground flex items-center gap-2">
+                  <p className="font-medium text-foreground text-sm">Dr. {a.doctor_name}</p>
+                  <p className="text-xs text-muted-foreground flex items-center gap-2 mt-0.5">
                     <span>{a.specialization}</span>
                     <span>·</span>
                     <CalendarDays className="h-3 w-3" /> {new Date(a.appointment_date).toLocaleDateString()}
                     <Clock className="h-3 w-3 ml-1" /> {a.time_slot}
                   </p>
                 </div>
-                <Button variant="ghost" size="icon" onClick={() => cancelAppointment(a.id)}>
+                <Button variant="ghost" size="icon" className="rounded-xl h-9 w-9 hover:bg-destructive/10" onClick={() => cancelAppointment(a.id)}>
                   <Trash2 className="h-4 w-4 text-destructive" />
                 </Button>
               </div>

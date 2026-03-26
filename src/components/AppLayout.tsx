@@ -8,7 +8,7 @@ export default function AppLayout() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="h-8 w-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+        <div className="h-9 w-9 rounded-full border-2 border-primary/40 border-t-primary animate-spin" />
       </div>
     );
   }
@@ -18,7 +18,7 @@ export default function AppLayout() {
   return (
     <div className="min-h-screen flex bg-background">
       <AppSidebar />
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1 overflow-auto scrollbar-thin">
         <Outlet />
       </main>
     </div>
