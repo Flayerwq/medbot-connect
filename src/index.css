@@ -6,51 +6,51 @@
 
 @layer base {
   :root {
-    --background: 240 10% 4%;
-    --foreground: 0 0% 95%;
+    --background: 240 12% 3.5%;
+    --foreground: 220 14% 96%;
 
-    --card: 240 8% 8%;
-    --card-foreground: 0 0% 95%;
+    --card: 240 10% 6%;
+    --card-foreground: 220 14% 96%;
 
-    --popover: 240 8% 8%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 240 10% 6%;
+    --popover-foreground: 220 14% 96%;
 
-    --primary: 263 70% 50%;
+    --primary: 263 70% 55%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 263 30% 18%;
-    --secondary-foreground: 263 30% 80%;
+    --secondary: 263 25% 15%;
+    --secondary-foreground: 263 30% 82%;
 
-    --muted: 240 6% 14%;
-    --muted-foreground: 240 5% 55%;
+    --muted: 240 8% 12%;
+    --muted-foreground: 240 5% 50%;
 
-    --accent: 263 50% 30%;
-    --accent-foreground: 263 30% 90%;
+    --accent: 263 40% 25%;
+    --accent-foreground: 263 30% 92%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 6% 16%;
-    --input: 240 6% 16%;
-    --ring: 263 70% 50%;
+    --border: 240 8% 13%;
+    --input: 240 8% 15%;
+    --ring: 263 70% 55%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 240 10% 6%;
-    --sidebar-foreground: 0 0% 85%;
-    --sidebar-primary: 263 70% 50%;
+    --sidebar-background: 240 12% 4.5%;
+    --sidebar-foreground: 220 10% 72%;
+    --sidebar-primary: 263 70% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 263 50% 15%;
-    --sidebar-accent-foreground: 263 30% 90%;
-    --sidebar-border: 240 6% 14%;
-    --sidebar-ring: 263 70% 50%;
+    --sidebar-accent: 263 40% 14%;
+    --sidebar-accent-foreground: 263 30% 92%;
+    --sidebar-border: 240 8% 11%;
+    --sidebar-ring: 263 70% 55%;
 
     /* Custom tokens */
-    --violet-glow: 263 70% 50%;
-    --violet-deep: 263 60% 20%;
-    --glass-bg: 240 8% 8%;
-    --glass-border: 240 6% 18%;
-    --success: 142 71% 45%;
+    --violet-glow: 263 70% 55%;
+    --violet-deep: 263 55% 18%;
+    --glass-bg: 240 10% 6%;
+    --glass-border: 240 8% 15%;
+    --success: 152 60% 48%;
     --success-foreground: 0 0% 100%;
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
@@ -63,40 +63,46 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Space Grotesk', sans-serif;
+  }
+
+  /* Smooth focus rings globally */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-ring/50 ring-offset-2 ring-offset-background transition-shadow duration-200;
   }
 }
 
 @layer utilities {
   .glass-card {
-    @apply bg-card/80 backdrop-blur-xl border border-glass-border rounded-xl;
+    @apply bg-card/70 backdrop-blur-2xl border border-glass-border rounded-2xl shadow-lg shadow-black/10;
   }
 
   .glass-card-hover {
-    @apply glass-card transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5;
+    @apply glass-card transition-all duration-300 ease-out hover:border-primary/25 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-0.5;
   }
 
   .gradient-violet {
-    background: linear-gradient(135deg, hsl(263 70% 50%), hsl(280 70% 40%));
+    background: linear-gradient(135deg, hsl(263 70% 55%), hsl(280 65% 42%));
   }
 
   .gradient-text {
     @apply bg-clip-text text-transparent;
-    background: linear-gradient(135deg, hsl(263 70% 60%), hsl(280 80% 70%));
+    background: linear-gradient(135deg, hsl(263 70% 65%), hsl(290 75% 72%));
   }
 
   .glow-violet {
-    box-shadow: 0 0 30px -5px hsl(263 70% 50% / 0.3);
+    box-shadow: 0 0 40px -8px hsl(263 70% 55% / 0.35),
+                0 0 80px -16px hsl(263 70% 55% / 0.15);
   }
 
   .scrollbar-thin {
     scrollbar-width: thin;
-    scrollbar-color: hsl(240 6% 20%) transparent;
+    scrollbar-color: hsl(240 6% 18%) transparent;
   }
 
   .scrollbar-thin::-webkit-scrollbar {
-    width: 6px;
+    width: 5px;
   }
 
   .scrollbar-thin::-webkit-scrollbar-track {
@@ -104,7 +110,21 @@
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: hsl(240 6% 20%);
-    border-radius: 3px;
+    background: hsl(240 6% 18%);
+    border-radius: 999px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: hsl(240 6% 25%);
+  }
+
+  /* Fade in animation */
+  .fade-in {
+    animation: fade-in 0.4s ease-out;
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 }
