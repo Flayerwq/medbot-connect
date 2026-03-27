@@ -28,13 +28,34 @@ export function DoctorAuthProvider({ children }: { children: ReactNode }) {
   const [doctor, setDoctor] = useState<DoctorProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchDoctorProfile = async (userId: string) => {
+  const fetchOrCreateDoctorProfile = async (userId: string, userMeta?: Record<string, any>) => {
     const { data } = await supabase
       .from('doctors')
       .select('id, name, specialization, experience, email')
       .eq('user_id', userId)
       .maybeSingle();
-    setDoctor(data as DoctorProfile | null);
+    
+    if (data) {
+      setDoctor(data as DoctorProfile);
+      return;
+    }
+
+    // Auto-create doctor record from user metadata on first login
+    if (userMeta?.role === 'doctor' && userMeta?.full_name && userMeta?.specialization) {
+      const { data: newDoc, error } = await supabase.from('doctors').insert({
+        user_id: userId,
+        name: userMeta.full_name,
+        specialization: userMeta.specialization,
+        experience: userMeta.experience || '',
+        email: userMeta.email || '',
+      }).select('id, name, specialization, experience, email').single();
+      
+      if (!error && newDoc) {
+        setDoctor(newDoc as DoctorProfile);
+        return;
+      }
+    }
+    setDoctor(null);
   };
 
   useEffect(() => {
@@ -42,7 +63,7 @@ export function DoctorAuthProvider({ children }: { children: ReactNode }) {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        await fetchDoctorProfile(session.user.id);
+        await fetchOrCreateDoctorProfile(session.user.id, session.user.user_metadata);
       } else {
         setDoctor(null);
       }
@@ -53,7 +74,7 @@ export function DoctorAuthProvider({ children }: { children: ReactNode }) {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        await fetchDoctorProfile(session.user.id);
+        await fetchOrCreateDoctorProfile(session.user.id, session.user.user_metadata);
       }
       setLoading(false);
     });
