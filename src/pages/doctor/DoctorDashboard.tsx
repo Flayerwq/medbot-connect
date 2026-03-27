@@ -79,7 +79,7 @@ export default function DoctorDashboard() {
   return (
     <div className="p-6 lg:p-8 space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-foreground">Welcome, Dr. {doctor?.name}</h1>
+        <h1 className="text-2xl font-bold text-foreground">Welcome, {doctor?.name}</h1>
         <p className="text-muted-foreground text-sm mt-1">Manage your patient appointments</p>
       </div>
 
