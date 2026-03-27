@@ -83,23 +83,20 @@ export function DoctorAuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signUp = async (email: string, password: string, fullName: string, specialization: string, experience: string) => {
-    const { data: authData, error: authError } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { full_name: fullName, role: 'doctor' } },
+      options: {
+        data: {
+          full_name: fullName,
+          role: 'doctor',
+          specialization,
+          experience,
+          email,
+        },
+      },
     });
-    if (authError) throw authError;
-
-    if (authData.user) {
-      const { error: insertError } = await supabase.from('doctors').insert({
-        user_id: authData.user.id,
-        name: fullName,
-        specialization,
-        experience,
-        email,
-      });
-      if (insertError) throw insertError;
-    }
+    if (error) throw error;
   };
 
   const signIn = async (email: string, password: string) => {
