@@ -27,21 +27,28 @@ const App = () => (
       <Toaster />
       <Sonner />
       <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route element={<AppLayout />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/chatbot" element={<Chatbot />} />
-              <Route path="/reports" element={<Reports />} />
-              <Route path="/appointments" element={<Appointments />} />
-              <Route path="/profile" element={<Profile />} />
-            </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+        <DoctorAuthProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route element={<AppLayout />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/chatbot" element={<Chatbot />} />
+                <Route path="/reports" element={<Reports />} />
+                <Route path="/appointments" element={<Appointments />} />
+                <Route path="/profile" element={<Profile />} />
+              </Route>
+              <Route path="/doctor/login" element={<DoctorLogin />} />
+              <Route path="/doctor/signup" element={<DoctorSignup />} />
+              <Route element={<DoctorLayout />}>
+                <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </DoctorAuthProvider>
       </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
