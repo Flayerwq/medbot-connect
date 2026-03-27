@@ -121,23 +121,32 @@ export type Database = {
         Row: {
           available_slots: string[]
           created_at: string
+          email: string | null
+          experience: string
           id: string
           name: string
           specialization: string
+          user_id: string | null
         }
         Insert: {
           available_slots?: string[]
           created_at?: string
+          email?: string | null
+          experience?: string
           id?: string
           name: string
           specialization: string
+          user_id?: string | null
         }
         Update: {
           available_slots?: string[]
           created_at?: string
+          email?: string | null
+          experience?: string
           id?: string
           name?: string
           specialization?: string
+          user_id?: string | null
         }
         Relationships: []
       }
